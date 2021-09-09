@@ -1,17 +1,17 @@
-{
-    "type": "postgres",
-    "host": "localhost",
-    "port": 5432,
-    "username": "docker",
-    "password": "docker",
-    "database": "petStore",
-    "entities": [
-      "./src/entities/*.ts"
-    ],
-    "migrations": [
-      "./src/database/migrations/*.ts"
-    ],
-    "cli": {
-      "migrationsDir": "./src/database/migrations"
-    }
+{   
+  "type": "postgres",
+  "host": "localhost",
+  "port": 5432,
+  "username": "postgres",
+  "password": "docker",
+  "database": "petstore",
+  "entities": [
+    "./src/entities/*.ts"
+  ],
+  "migrations": [
+    "./src/infra/database/migrations/*.ts"  
+  ],
+  "cli": {
+    "migrationsDir": "./src/infra/database/migrations"
+  }
 }
