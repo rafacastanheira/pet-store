@@ -6,6 +6,13 @@ import cors from 'cors';
 import routers from './routes';
 import AppError from '@shared/errors/AppError';
 
+<<<<<<< HEAD
+const app = express();
+app.use(cors());
+app.use(express.json());
+app.use(routers);
+
+=======
 import './infra/database';
 
 const app = express();
@@ -13,6 +20,7 @@ app.use(cors());
 app.use(express.json());
 app.use(routers);
 
+>>>>>>> 50960d65c8c6eb63cb67e236cac87047ccdad40e
 app.use((err: Error, request: Request, response: Response, _: NextFunction) => {
   if (err instanceof AppError) {
     return response
