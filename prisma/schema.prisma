@@ -14,8 +14,8 @@ model users {
   password       String   @db.VarChar
   preferences    String?  @db.VarChar
   avatar         String?  @db.VarChar
-  address        String?  @db.VarChar
-  credit_card_id String?  @db.VarChar
+  address        address[] 
+  credit_card    creditCard[]
   created_at     DateTime @default(now()) @db.Timestamp(6)
   updated_at     DateTime @default(now()) @db.Timestamp(6)
   token userTokens?
@@ -24,11 +24,32 @@ model users {
 model userTokens {
   id String @id() @default(uuid())
   token String @default(uuid())
-  user users? @relation(fields: [userId], references: [id])
-  userId String? 
+  user users? @relation(fields: [user_Id], references: [id])
+  user_Id String? 
   created_at     DateTime @default(now()) @db.Timestamp(6)
   updated_at     DateTime @default(now()) @db.Timestamp(6)
 
-  @@unique([id, userId])
+  @@unique([id, user_Id])
 
+}
+
+model address{
+  id	String @id() @default(uuid())
+  street	String @db.VarChar()
+  number	String @db.VarChar()
+  state	String @db.VarChar(2)
+  city	String @db.VarChar()
+  post_code	String @db.VarChar(8)
+  user_Id String
+  user users @relation(fields: [user_Id], references: [id])
+}
+
+model creditCard{
+  id	String @id() @default(uuid())
+  card_number	String @db.VarChar()
+  holder_name	String @db.VarChar()
+  cvv_code	String @db.VarChar()
+  expiration_date	String @db.VarChar()
+  user_id	String
+  user users @relation(fields: [user_id], references: [id])
 }
