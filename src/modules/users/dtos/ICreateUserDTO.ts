@@ -3,5 +3,17 @@ export interface ICreateUserDto {
   email: string;
   password: string;
   preferences: string;
-  credit_card_id: string;
+  creditCard?: {
+    number: string;
+    holderName: string;
+    cvvCode: string;
+    expirationDate: string;
+  };
+  address?: {
+    street: string;
+    number: string;
+    state: string;
+    city: string;
+    postCode: string;
+  };
 }
