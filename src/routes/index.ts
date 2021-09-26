@@ -1,10 +1,9 @@
-import { Router } from 'express'
+import { Router } from 'express';
 
-import usersRouter from '@modules/users/routes/users.router'
+import usersRouter from '@modules/users/routes/users.router';
 
-const routers = Router()
+const routers = Router();
 
-routers.use('/users', usersRouter)
+routers.use('/users', usersRouter);
 
-export default routers
-
+export default routers;

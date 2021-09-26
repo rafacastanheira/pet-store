@@ -6,8 +6,6 @@ import cors from 'cors';
 import routers from './routes';
 import AppError from '@shared/errors/AppError';
 
-import './infra/database';
-
 const app = express();
 app.use(cors());
 app.use(express.json());
