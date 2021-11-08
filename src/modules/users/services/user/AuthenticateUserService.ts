@@ -1,5 +1,5 @@
 import { compare } from 'bcryptjs';
-import prisma from '../prisma';
+import prisma from '@services/prisma';
 import AppError from '@shared/errors/AppError';
 import { IAuthenticaterUserDTO } from '@modules/users/dtos/IAuthenticaterUserDTO';
 import { sign } from 'jsonwebtoken';
