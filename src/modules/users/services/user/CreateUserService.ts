@@ -1,5 +1,5 @@
 import { hash } from 'bcryptjs';
-import prisma from '../prisma';
+import prisma from '@services/prisma';
 import AppError from '@shared/errors/AppError';
 import { ICreateUserDto } from '@modules/users/dtos/ICreateUserDTO';
 

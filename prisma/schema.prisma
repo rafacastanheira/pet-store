@@ -75,7 +75,7 @@ model merchantTokens {
 model merchants{
   id	String @id() @default(uuid())
   name String @db.VarChar()
-  cnpj String @db.VarChar()
+  cnpj String @unique() @db.VarChar()
   email String @unique() @db.VarChar()
   token merchantTokens?
   password String @db.VarChar()
