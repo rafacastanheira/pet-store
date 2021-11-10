@@ -98,7 +98,7 @@ model product{
 
 model category{
   id	String @id() @default(uuid())
-  name String @db.VarChar()
+  name String @unique() @db.VarChar()
   productCategory String @db.VarChar()
   product product?  
 }
