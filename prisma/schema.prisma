@@ -80,7 +80,7 @@ model merchants{
   token merchantTokens?
   password String @db.VarChar()
   address address[]
-  product product?
+  products product[]
   created_at     DateTime @default(now()) @db.Timestamp(6)
   updated_at     DateTime @default(now()) @db.Timestamp(6)
 }
@@ -90,7 +90,7 @@ model product{
   name String @db.VarChar()
   imageUrl String @db.VarChar()
   price Float @db.DoublePrecision()
-  category_id String
+  category_id String 
   category category @relation(fields: [category_id], references: [id])
   merchant_id String
   merchant merchants @relation(fields: [merchant_id], references: [id])
@@ -100,7 +100,7 @@ model category{
   id	String @id() @default(uuid())
   name String @unique() @db.VarChar()
   productCategory String @db.VarChar()
-  product product?  
+  products product[]  
 }
 
 model payments{
