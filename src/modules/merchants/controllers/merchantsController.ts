@@ -8,6 +8,7 @@ export default class MerchantsController{
         const merchant = await createMerchantService(req.body as ICreateMerchantDto)
 
         const { password, ...merchantWhitoutPass } = merchant;
+
         
         return res.status(200).json(merchantWhitoutPass);
     }
