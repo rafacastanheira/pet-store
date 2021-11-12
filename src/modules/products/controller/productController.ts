@@ -4,10 +4,13 @@ import { ICreateProductDTO } from '../dtos/ICreateProductDTO';
 
 export default class ProductsController {
     public async createProducts(req: Request, res: Response) {
-        const { merchantId } = req.params
-        console.log('merchantId => ', merchantId)
+        try {
+            const merchantId = req.merchant.id
 
-        const product = await createProductService(req.body as ICreateProductDTO, merchantId)
-        return res.status(200).json(product)
+            const product = await createProductService(req.body as ICreateProductDTO, merchantId)
+            return res.status(200).json(product)
+        } catch (e) {
+            console.log(e)
+        }
     }
 }

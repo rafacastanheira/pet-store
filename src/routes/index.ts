@@ -10,6 +10,6 @@ const routers = Router();
 routers.use('/users', usersRouter);
 routers.use('/merchants', merchantRouter)
 routers.use('/categories', categoryRouter)
-routers.use('/products', productRouter)
+routers.use('/merchant/product', productRouter)
 
 export default routers;

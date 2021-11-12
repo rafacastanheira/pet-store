@@ -7,10 +7,7 @@ const createProductService = async (
     merchantId: string
 ) => {
     const { imageUrl, name, price, categoryId } = dto
-    
-    console.log('category => ', categoryId)
 
-    
     const checkProductExist = await prisma.product.findFirst({
         where: {
             AND: [
@@ -23,6 +20,7 @@ const createProductService = async (
         throw new AppError('Product already exist.')
     }
 
+
     const product = await prisma.product.create({
         data: {
             name,
@@ -30,10 +28,13 @@ const createProductService = async (
             price,
             category_id: categoryId,
             merchant_id: merchantId,
-        }
+        }        
     })
+    
+    return product 
 
-    return product
+
+
 }
 
 export default createProductService
