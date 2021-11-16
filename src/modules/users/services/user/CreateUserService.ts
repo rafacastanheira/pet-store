@@ -27,7 +27,7 @@ const createUserService = async (dto: ICreateUserDto) => {
       name,
       email,
       password: hashedPassword,
-      preferences,
+      preferences
     },
   });
 
@@ -39,6 +39,7 @@ const createUserService = async (dto: ICreateUserDto) => {
         expiration_date: creditCard.expirationDate,
         holder_name: creditCard.holderName,
         user_id: user.id,
+        brand: creditCard.brand
       },
     }));
 

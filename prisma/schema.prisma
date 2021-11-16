@@ -12,11 +12,12 @@ model users {
   name           String   @db.VarChar
   email          String   @unique() @db.VarChar
   password       String   @db.VarChar
-  preferences    String?  @db.VarChar
+  preferences    String[] @db.Text
   avatar         String?  @db.VarChar
   address        address[] 
   credit_card    creditCard[]
-  token userTokens?
+  order          order[]
+  token          userTokens?
   created_at     DateTime @default(now()) @db.Timestamp(6)
   updated_at     DateTime @default(now()) @db.Timestamp(6)
 }
@@ -43,7 +44,7 @@ model address{
   user users? @relation(fields: [user_Id], references: [id])
   merchant_Id String?
   merchant merchants? @relation(fields: [merchant_Id], references: [id])
-  order order?
+  order order[]
   created_at     DateTime @default(now()) @db.Timestamp(6)
   updated_at     DateTime @default(now()) @db.Timestamp(6)
 }
@@ -53,6 +54,7 @@ model creditCard{
   card_number	String @db.VarChar()
   holder_name	String @db.VarChar()
   cvv_code	String @db.VarChar()
+  brand String @db.VarChar()
   expiration_date	String @db.VarChar()
   user_id	String
   user users @relation(fields: [user_id], references: [id])
@@ -81,6 +83,7 @@ model merchants{
   password String @db.VarChar()
   address address[]
   products product[]
+  order order[]
   created_at     DateTime @default(now()) @db.Timestamp(6)
   updated_at     DateTime @default(now()) @db.Timestamp(6)
 }
@@ -109,18 +112,21 @@ model payments{
   value Float @db.DoublePrecision()
   status String @db.VarChar()
   requisite String @db.Text()
-  order order?
+  order order[]
   created_at     DateTime @default(now()) @db.Timestamp(6)
   updated_at     DateTime @default(now()) @db.Timestamp(6)
 }
 
 model order{
   id	String @id() @default(uuid())
-  name String @db.VarChar()
+  user_id String
+  user users @relation(fields: [user_id], references: [id])
+  merchant_id String
+  merchant merchants @relation(fields: [merchant_id], references: [id])
   orderType orderType
   status statusOrder
-  items String @db.Text()
-  benefitis String @db.Text()
+  items String[] @db.Text()
+  benefits String[] @db.Text()
   total String @db.Text()
   payments_id String
   payments payments @relation(fields: [payments_id], references: [id])
@@ -129,6 +135,13 @@ model order{
   created_at  DateTime @default(now()) @db.Timestamp(6)
   updated_at     DateTime @default(now()) @db.Timestamp(6)
 
+}
+
+
+enum PreferencesUser {
+  dog
+  cat
+  bird
 }
 
 enum paymentsMethod  {
