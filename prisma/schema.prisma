@@ -18,122 +18,155 @@ model users {
   credit_card    creditCard[]
   order          order[]
   token          userTokens?
+  signature      signature[]
   created_at     DateTime @default(now()) @db.Timestamp(6)
   updated_at     DateTime @default(now()) @db.Timestamp(6)
 }
 
 model userTokens {
-  id String @id() @default(uuid())
-  token String @default(uuid())
-  user users? @relation(fields: [user_Id], references: [id])
-  user_Id String? 
-  created_at     DateTime @default(now()) @db.Timestamp(6)
+  id          String @id() @default(uuid())
+  token       String @default(uuid())
+  user        users? @relation(fields: [user_Id], references: [id])
+  user_Id     String? 
+  created_at  DateTime @default(now()) @db.Timestamp(6)
 
   @@unique([id, user_Id])
 
 }
 
 model address{
-  id	String @id() @default(uuid())
-  street	String @db.VarChar()
-  number	String @db.VarChar()
-  state	String @db.VarChar(2)
-  city	String @db.VarChar()
-  post_code	String @db.VarChar(8)
-  user_Id String?
-  user users? @relation(fields: [user_Id], references: [id])
+  id	        String @id() @default(uuid())
+  street	    String @db.VarChar()
+  number	    String @db.VarChar()
+  state	      String @db.VarChar(2)
+  city	      String @db.VarChar()
+  post_code	  String @db.VarChar(8)
+  user_Id     String?
+  user        users? @relation(fields: [user_Id], references: [id])
   merchant_Id String?
-  merchant merchants? @relation(fields: [merchant_Id], references: [id])
-  order order[]
-  created_at     DateTime @default(now()) @db.Timestamp(6)
-  updated_at     DateTime @default(now()) @db.Timestamp(6)
+  merchant    merchants? @relation(fields: [merchant_Id], references: [id])
+  order       order[]
+  created_at  DateTime @default(now()) @db.Timestamp(6)
+  updated_at  DateTime @default(now()) @db.Timestamp(6)
 }
 
 model creditCard{
-  id	String @id() @default(uuid())
-  card_number	String @db.VarChar()
-  holder_name	String @db.VarChar()
-  cvv_code	String @db.VarChar()
-  brand String @db.VarChar()
-  expiration_date	String @db.VarChar()
-  user_id	String
-  user users @relation(fields: [user_id], references: [id])
-  created_at     DateTime @default(now()) @db.Timestamp(6)
-  updated_at     DateTime @default(now()) @db.Timestamp(6)
+  id	              String @id() @default(uuid())
+  card_number	      String @db.VarChar()
+  holder_name	      String @db.VarChar()
+  cvv_code	        String @db.VarChar()
+  brand             String @db.VarChar()
+  expiration_date	  String @db.VarChar()
+  user_id	          String
+  user              users @relation(fields: [user_id], references: [id])
+  created_at        DateTime @default(now()) @db.Timestamp(6)
+  updated_at        DateTime @default(now()) @db.Timestamp(6)
   
 }
 
 model merchantTokens {
-  id String @id() @default(uuid())
-  token String @default(uuid())
-  merchant_Id String? 
-  merchant merchants? @relation(fields: [merchant_Id], references: [id])
-  created_at     DateTime @default(now()) @db.Timestamp(6)
+  id            String @id() @default(uuid())
+  token         String @default(uuid())
+  merchant_Id   String? 
+  merchant      merchants? @relation(fields: [merchant_Id], references: [id])
+  created_at    DateTime @default(now()) @db.Timestamp(6)
 
   @@unique([id, merchant_Id])
 
 }
 
 model merchants{
-  id	String @id() @default(uuid())
-  name String @db.VarChar()
-  cnpj String @unique() @db.VarChar()
-  email String @unique() @db.VarChar()
-  token merchantTokens?
-  password String @db.VarChar()
-  address address[]
-  products product[]
-  order order[]
-  created_at     DateTime @default(now()) @db.Timestamp(6)
-  updated_at     DateTime @default(now()) @db.Timestamp(6)
+  id	          String @id() @default(uuid())
+  name          String @db.VarChar()
+  cnpj          String @unique() @db.VarChar()
+  email         String @unique() @db.VarChar()
+  token         merchantTokens?
+  password      String @db.VarChar()
+  address       address[]
+  products      product[]
+  order         order[]
+  signature     signature[]
+  created_at    DateTime @default(now()) @db.Timestamp(6)
+  updated_at    DateTime @default(now()) @db.Timestamp(6)
+}
+
+model signature{
+  id	              String @id() @default(uuid())
+  user_id           String
+  user              users @relation(fields: [user_id], references: [id])
+  merchant_id       String
+  merchant          merchants @relation(fields: [merchant_id], references: [id])
+  days              Int
+  nextDelivery      DateTime @db.Timestamp(6)
+  signature_product signature_product[]
+  created_at        DateTime @default(now()) @db.Timestamp(6)
+  updated_at        DateTime @default(now()) @db.Timestamp(6)
+
+}
+
+model signature_product{
+  id	              String @id() @default(uuid())
+  signature_id      String
+  signature         signature @relation(fields: [signature_id], references: [id])
+  product_id        String
+  product           product @relation(fields: [product_id], references: [id])
+  discount          Float
+  total             Float
+  created_at        DateTime @default(now()) @db.Timestamp(6)
+  updated_at        DateTime @default(now()) @db.Timestamp(6)  
 }
 
 model product{
-  id	String @id() @default(uuid())
-  name String @db.VarChar()
-  imageUrl String @db.VarChar()
-  price Float @db.DoublePrecision()
-  category_id String 
-  category category @relation(fields: [category_id], references: [id])
-  merchant_id String
-  merchant merchants @relation(fields: [merchant_id], references: [id])
+  id	                  String @id() @default(uuid())
+  name                  String @db.VarChar()
+  imageUrl              String @db.VarChar()
+  price                 Float @db.DoublePrecision()
+  category_id           String 
+  category              category @relation(fields: [category_id], references: [id])
+  merchant_id           String
+  merchant              merchants @relation(fields: [merchant_id], references: [id])
+  signature_product     signature_product[]
+  created_at            DateTime @default(now()) @db.Timestamp(6)
+  updated_at            DateTime @default(now()) @db.Timestamp(6)
 }
 
 model category{
-  id	String @id() @default(uuid())
-  name String @unique() @db.VarChar()
-  productCategory String @db.VarChar()
-  products product[]  
+  id	                String @id() @default(uuid())
+  name                String @unique() @db.VarChar()
+  productCategory     String @db.VarChar()
+  products            product[]
+  created_at        DateTime @default(now()) @db.Timestamp(6)
+  updated_at        DateTime @default(now()) @db.Timestamp(6)  
 }
 
 model payments{
-  id	String @id() @default(uuid())
-  method paymentsMethod
-  value Float @db.DoublePrecision()
-  status String @db.VarChar()
-  requisite String @db.Text()
-  order order[]
-  created_at     DateTime @default(now()) @db.Timestamp(6)
-  updated_at     DateTime @default(now()) @db.Timestamp(6)
+  id	          String @id() @default(uuid())
+  method        paymentsMethod
+  value         Float @db.DoublePrecision()
+  status        String @db.VarChar()
+  requisite     String @db.Text()
+  order         order[]
+  created_at    DateTime @default(now()) @db.Timestamp(6)
+  updated_at    DateTime @default(now()) @db.Timestamp(6)
 }
 
 model order{
-  id	String @id() @default(uuid())
-  user_id String
-  user users @relation(fields: [user_id], references: [id])
-  merchant_id String
-  merchant merchants @relation(fields: [merchant_id], references: [id])
-  orderType orderType
-  status statusOrder
-  items String[] @db.Text()
-  benefits String[] @db.Text()
-  total String @db.Text()
-  payments_id String
-  payments payments @relation(fields: [payments_id], references: [id])
-  address_id String
-  address address @relation(fields: [address_id], references: [id])
-  created_at  DateTime @default(now()) @db.Timestamp(6)
-  updated_at     DateTime @default(now()) @db.Timestamp(6)
+  id	          String @id() @default(uuid())
+  user_id       String
+  user          users @relation(fields: [user_id], references: [id])
+  merchant_id   String
+  merchant      merchants @relation(fields: [merchant_id], references: [id])
+  orderType     orderType
+  status        statusOrder
+  items         String[] @db.Text()
+  benefits      String[] @db.Text()
+  total         String @db.Text()
+  payments_id   String
+  payments      payments @relation(fields: [payments_id], references: [id])
+  address_id    String
+  address       address @relation(fields: [address_id], references: [id])
+  created_at    DateTime @default(now()) @db.Timestamp(6)
+  updated_at    DateTime @default(now()) @db.Timestamp(6)
 
 }
 
