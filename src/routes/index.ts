@@ -6,6 +6,7 @@ import categoryRouter from '@modules/categories/routes/category.router';
 import productRouter from '@modules/products/routes/product.router';
 import orderRouter from '@modules/orders/routes/order.router';
 import signatureRouter from '@modules/signature/routes/signature.route';
+import merchandisingRouter from '@modules/merchandising/routes/merchandising.router';
 
 const routers = Router();
 
@@ -15,5 +16,6 @@ routers.use('/categories', categoryRouter)
 routers.use('/merchant/product', productRouter)
 routers.use('/order/merchant', orderRouter)
 routers.use('/signature', signatureRouter)
+routers.use('/users/merchandising', merchandisingRouter)
 
 export default routers;

@@ -92,6 +92,7 @@ model merchants{
 
 model signature{
   id	              String @id() @default(uuid())
+  name              String @db.VarChar()
   user_id           String
   user              users @relation(fields: [user_id], references: [id])
   merchant_id       String
