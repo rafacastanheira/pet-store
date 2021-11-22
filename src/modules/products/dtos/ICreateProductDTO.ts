@@ -1,7 +1,6 @@
 export interface ICreateProductDTO{
     name: string,
-    imageUrl: string,
-    price: number,
+    price: string,
     categoryId: string
     
 }

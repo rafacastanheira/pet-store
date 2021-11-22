@@ -6,9 +6,11 @@ export default class MerchandisingController{
         try {
             const user_id = req.user.id
 
-        const merchandising = await getMerchandisingByUser(user_id)
-        
-        return res.status(200).json(merchandising)
+            console.log(user_id)
+
+            const merchandising = await getMerchandisingByUser(user_id)
+            
+            return res.status(200).json(merchandising)
         } catch (e) {
             return res.status(500).json('erro: ' + e)
         }

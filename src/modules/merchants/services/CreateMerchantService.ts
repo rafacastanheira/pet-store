@@ -31,9 +31,9 @@ const createMerchantService = async (dto: ICreateMerchantDto) => {
 
     const merchant = await prisma.merchants.create({
         data: {
-            name,
+            name: name.toLocaleLowerCase(),
             cnpj,
-            email,
+            email: email.toLocaleLowerCase(),
             password: hashedPassword,           
         }
     })

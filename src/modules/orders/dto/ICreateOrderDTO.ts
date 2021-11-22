@@ -4,7 +4,7 @@ export type ICreateOrderDTO = {
     orderType: orderType,
     status: statusOrder,
     items: [{
-        product: string,
+        product_id: string,
         quantity: string,
         totalPrice: string
     }],

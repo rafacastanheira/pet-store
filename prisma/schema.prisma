@@ -112,6 +112,7 @@ model signature_product{
   product_id        String
   product           product @relation(fields: [product_id], references: [id])
   discount          Float
+  price             Float
   total             Float
   created_at        DateTime @default(now()) @db.Timestamp(6)
   updated_at        DateTime @default(now()) @db.Timestamp(6)  
@@ -133,7 +134,7 @@ model product{
 
 model category{
   id	                String @id() @default(uuid())
-  name                String @unique() @db.VarChar()
+  name                String @db.VarChar()
   productCategory     String @db.VarChar()
   products            product[]
   created_at        DateTime @default(now()) @db.Timestamp(6)
