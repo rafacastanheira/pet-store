@@ -6,22 +6,23 @@ import { ICreateOrderDTO } from '../dto/ICreateOrderDTO'
 const createOrderService = async (dto: ICreateOrderDTO, userId: string, merchantId: string) => {
     let { orderType = 'delivery', status = 'pending', items, benefits, total, payments } = dto
     
-    const product = items.map((item) => item.product)
+    const products = items.map((item) => item.product_id)
 
     const isProductMerchant = await prisma.product.findMany({
         where: {
-            name: {
-                in: product
+            id: {
+                in: products
             },
             merchant_id: merchantId
         }
     })
 
-    if (product.length !== isProductMerchant.length) {
+    if (products.length !== isProductMerchant.length) {
         throw new AppErro('All product must belongs to the same merchant.', 400)
     }
 
     let requisitePayment = {}
+
 
     if (payments.method === 'card') {
         const card = await prisma.creditCard.findFirst({
@@ -30,8 +31,11 @@ const createOrderService = async (dto: ICreateOrderDTO, userId: string, merchant
             }
         })
 
+        const hideCardNumber = card?.card_number.slice(-4).padStart(card.card_number.length, '*')
+
+
         requisitePayment = {
-            cardNumber: card?.card_number,
+            cardNumber: hideCardNumber,
             brand: card?.brand
         }
     } else {

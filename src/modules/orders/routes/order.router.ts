@@ -8,5 +8,6 @@ const orderRouter = Router()
 const orderController = new OrdersController()
 
 orderRouter.post('/:merchantId', ensureAuthenticated, orderController.createOrder)
+orderRouter.get('/', ensureAuthenticated, orderController.getOrder)
 
 export default orderRouter

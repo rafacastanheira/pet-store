@@ -2,7 +2,7 @@ export interface ICreateUserDto {
   name: string;
   email: string;
   password: string;
-  preferences: [];
+  preferences: [String];
   creditCard?: {
     number: string;
     holderName: string;

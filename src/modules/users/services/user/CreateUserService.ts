@@ -16,18 +16,14 @@ const createUserService = async (dto: ICreateUserDto) => {
     throw new AppError('Email address already used.');
   }
 
-  if (creditCard) {
-    creditCard.number = await hash(creditCard.number, 8);
-  }
-
   const hashedPassword = await hash(password, 8);
 
   const user = await prisma.users.create({
     data: {
-      name,
-      email,
+      name: name.toLocaleLowerCase(),
+      email: email.toLocaleLowerCase(),
       password: hashedPassword,
-      preferences
+      preferences: preferences.map(p => p.toLocaleLowerCase())
     },
   });
 

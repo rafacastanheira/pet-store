@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "dev": "ts-node-dev --inspect --transpile-only --ignore-watch node_modules -r tsconfig-paths/register src/server.ts"
+    "dev": "ts-node-dev --inspect --transpile-only --exit-child --ignore-watch node_modules -r tsconfig-paths/register src/server.ts"
   },
   "dependencies": {
     "@prisma/client": "^3.1.1",
@@ -19,11 +19,13 @@
     "express": "^4.17.1",
     "express-async-errors": "^3.1.1",
     "jsonwebtoken": "^8.5.1",
+    "multer": "^1.4.3",
     "pg": "^8.7.1",
     "reflect-metadata": "^0.1.13",
     "uuidv4": "^6.2.11"
   },
   "devDependencies": {
+    "@types/multer": "^1.4.7",
     "@typescript-eslint/eslint-plugin": "^4.29.1",
     "@typescript-eslint/parser": "^4.29.1",
     "eslint": "^7.32.0",

@@ -25,12 +25,10 @@ export const createSignatureService = async (dto: ICreateSignatureDTO, user_id: 
 
     const discount = 0.15
     const nextDelivery = addDays(new Date(), days)
-    const amountTotal = product.reduce((current, next) => current + next.price, 0)
-    const total = amountTotal - (amountTotal * discount)
 
     const signature = await prisma.signature.create({
         data: {
-            name,
+            name: name.toLocaleLowerCase(),
             days,
             merchant_id: merchant.id,
             user_id,
@@ -42,7 +40,8 @@ export const createSignatureService = async (dto: ICreateSignatureDTO, user_id: 
         await prisma.signature_product.create({
             data: {
                 discount,
-                total,
+                price: p.price,
+                total: p.price - (p.price * discount),
                 product_id: p.id,
                 signature_id: signature.id,
             }
